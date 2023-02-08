@@ -59,8 +59,7 @@ class Tweet:
 st.set_page_config(page_title='Tweeter', page_icon=":bird:")
 
 tweet = Tweet()
-with open('key.txt', 'r') as f:
-    openai.api_key = f.read()
+openai.api_key = st.secrets["KEY"]
 
 st.header(':blue[Tweeter] :bird:')
 st.subheader('AI-assisted Tweeting Tool')
@@ -80,7 +79,7 @@ with col3:
         "Hashtag",
         ('Hashtags', 'No Hashtags'))
 
-input = st.text_area(label='', 
+input = st.text_area(label='empty', 
                      placeholder='What\'s happening?', 
                      label_visibility='collapsed')
 
