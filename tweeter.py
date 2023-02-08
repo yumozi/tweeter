@@ -13,10 +13,11 @@ class Tweet:
         output = asyncio.run(self.get_response(self.prepare_input(input, style, emoji, tag)))
         if tag == 'No Hashtags':
             output = self.remove_hashtags(output)
+        output = self.remove_quotes(output)
         self.render_output(output)
 
     def prepare_input(self, input, style, emoji, tag):
-        return f'Rewrite \"{input}\" using the style of a tweet, within {TOKEN_LIMIT},tokens, in a {style} style, with {tag}, with {emoji} emoji \n\nTweet:'
+        return f'Write a tweet describing \"{input}\", within {TOKEN_LIMIT},tokens, in a {style} style, include {tag}, don\'t include any quotation marks, with {emoji} emoji. Tweet: '
 
     async def get_response(self, input):
         task1 = asyncio.create_task(self.send_request(input))
@@ -51,6 +52,9 @@ class Tweet:
     
     def remove_hashtags(self, s):
         return ' '.join([word for word in s.split() if not word.startswith('#')])
+
+    def remove_quotes(self, s):
+        return s.replace('"', '')
 
     def render_output(self, s):
         st.text('Try tweeting...')
